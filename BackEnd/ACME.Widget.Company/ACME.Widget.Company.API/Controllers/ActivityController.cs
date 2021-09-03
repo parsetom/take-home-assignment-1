@@ -20,17 +20,18 @@ namespace ACME.Widget.Company.API.Controllers
             this.activityService = activityService;
         }
 
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivities([FromQuery] string searchKeyword)
+        {
+            var response = await this.activityService.GetActivitiesAsync(searchKeyword);
+            return GetObjectResult(response);
+        }
+
         [HttpGet("{activityId}/participants")]
-        public async Task<IActionResult> GetParticipants(int activityId)
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipants(int activityId)
         {
             var response = await this.activityService.GetParticipantsAsync(activityId);
-
-            if (response.ErrorCode != Common.ErrorCodes.None)
-            {
-                return BadRequest(response.ErrorCode);
-            }
-
-            return Ok(response.Result);
+            return GetObjectResult(response);
         }
 
         [HttpPost("{activityId}/sign-up")]
@@ -52,6 +53,15 @@ namespace ACME.Widget.Company.API.Controllers
             {
                 return BadRequest(response.ErrorCode);
             }
+        }
+
+        private ObjectResult GetObjectResult(IServiceResult response)
+        {
+            if (response.ErrorCode != Common.ErrorCodes.None)
+            {
+                return BadRequest(response.ErrorCode);
+            }
+            return Ok(response.ObjectResult);
         }
     }
 }

@@ -27,10 +27,19 @@ namespace ACME.Widget.Company.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ACME Api" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ACME Api", Version = "v1" });
+                c.CustomOperationIds(op =>
+                {
+                    var result = op.ActionDescriptor.DisplayName;
+                    result = result.Substring(0, result.IndexOf(" "));
+                    result = result.Substring(result.LastIndexOf(".") + 1);
+                    return result;
+                });
             });
             services.AddACMEServices(Configuration);
         }
@@ -42,6 +51,13 @@ namespace ACME.Widget.Company.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(b =>
+            {
+                b.WithOrigins("http://localhost:4200")
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+            });
 
             app.UseHttpsRedirection();
 

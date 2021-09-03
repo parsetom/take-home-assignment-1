@@ -21,23 +21,50 @@ namespace ACME.Widget.Company.Services
             this.logger = logger;
         }
 
+        public Task<ServiceResult<IEnumerable<Activity>>> GetActivitiesAsync(string keyword)
+        {
+            var serviceResult = new ServiceResult<IEnumerable<Activity>>();
+
+            try
+            {
+                serviceResult.Result = dbContext.Activities.Where(a => a.Name.Contains(keyword ?? string.Empty)).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResult.ErrorCode = ErrorCodes.SystemError;
+                logger.LogError(ex, "Error GetActivitiesAsync");
+            }
+
+            return Task.FromResult(serviceResult);
+        }
+
         public Task<ServiceResult<IEnumerable<Participant>>> GetParticipantsAsync(int activityId)
         {
             var serviceResult = new ServiceResult<IEnumerable<Participant>>();
-            var registrations = dbContext.ActivityRegistrations.Where(r => r.ActivityId == activityId)
+
+            try
+            {
+                var registrations = dbContext.ActivityRegistrations.Where(r => r.ActivityId == activityId)
                 .Include(r => r.Person)
                 .Include(r => r.Activity);
 
-            var participants = registrations.Select(r => new Participant
-            {
-                RegistrationId = r.Id,
-                PersonId = r.PersonId,
-                Name = $"{r.Person.FirstName} {r.Person.LastName}",
-                ActivityName = r.Activity.Name,
-                Comments = r.Comments
-            });
+                var participants = registrations.Select(r => new Participant
+                {
+                    RegistrationId = r.Id,
+                    PersonId = r.PersonId,
+                    Name = $"{r.Person.FirstName} {r.Person.LastName}",
+                    Email = r.Person.Email,
+                    ActivityName = r.Activity.Name,
+                    Comments = r.Comments
+                });
 
-            serviceResult.Result = participants;
+                serviceResult.Result = participants.ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResult.ErrorCode = ErrorCodes.SystemError;
+                logger.LogError(ex, "Error GetParticipantsAsync");
+            }
 
             return Task.FromResult(serviceResult);
         }

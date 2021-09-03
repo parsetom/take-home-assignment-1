@@ -1,0 +1,1 @@
+﻿autorest --typescript --input-file=acme.swagger --output-folder=../typescript/ --package-name=acme.widget.company.api
