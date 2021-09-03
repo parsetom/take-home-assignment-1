@@ -1,8 +1,10 @@
 ﻿using ACME.Widget.Company.Common;
 using ACME.Widget.Company.Common.Models;
 using ACME.Widget.Company.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +21,28 @@ namespace ACME.Widget.Company.Services
             this.logger = logger;
         }
 
-        public Task<ServiceResult<bool>> RegisterParticipant(int activityId, string comment, Person participant)
+        public Task<ServiceResult<IEnumerable<Participant>>> GetParticipantsAsync(int activityId)
+        {
+            var serviceResult = new ServiceResult<IEnumerable<Participant>>();
+            var registrations = dbContext.ActivityRegistrations.Where(r => r.ActivityId == activityId)
+                .Include(r => r.Person)
+                .Include(r => r.Activity);
+
+            var participants = registrations.Select(r => new Participant
+            {
+                RegistrationId = r.Id,
+                PersonId = r.PersonId,
+                Name = $"{r.Person.FirstName} {r.Person.LastName}",
+                ActivityName = r.Activity.Name,
+                Comments = r.Comments
+            });
+
+            serviceResult.Result = participants;
+
+            return Task.FromResult(serviceResult);
+        }
+
+        public Task<ServiceResult<bool>> RegisterParticipantAsync(int activityId, string comment, Person participant)
         {
             var serviceResult = new ServiceResult<bool>();
 

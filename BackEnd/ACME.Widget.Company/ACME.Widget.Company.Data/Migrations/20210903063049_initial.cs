@@ -57,22 +57,33 @@ namespace ACME.Widget.Company.Data.Migrations
                         principalTable: "Activities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ActivityRegistrations_People_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Activities",
                 columns: new[] { "Id", "EndDate", "Name", "RegistrationDeadline", "StartDate" },
-                values: new object[] { 1, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Oktoberfest (VIP)", new DateTime(2021, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[,]
+                {
+                    { 1, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Oktoberfest (VIP)", new DateTime(2021, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 9, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2021, 9, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), "Wine Tasting Conference", new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 9, 15, 10, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), "Weekly Jogging at Campus Garden", new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
 
             migrationBuilder.InsertData(
-                table: "Activities",
-                columns: new[] { "Id", "EndDate", "Name", "RegistrationDeadline", "StartDate" },
-                values: new object[] { 2, new DateTime(2021, 9, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), "Wine Tasting Conference", new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 9, 15, 10, 0, 0, 0, DateTimeKind.Unspecified) });
+                table: "People",
+                columns: new[] { "Id", "Email", "FirstName", "LastName" },
+                values: new object[] { 1, "test@yopmail.com", "Joseph", "Dela Cruz" });
 
             migrationBuilder.InsertData(
-                table: "Activities",
-                columns: new[] { "Id", "EndDate", "Name", "RegistrationDeadline", "StartDate" },
-                values: new object[] { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Weekly Jogging at Campus Garden", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                table: "ActivityRegistrations",
+                columns: new[] { "Id", "ActivityId", "Comments", "PersonId" },
+                values: new object[] { 1, 3, "Yay!", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activities_Name_StartDate",
@@ -104,10 +115,10 @@ namespace ACME.Widget.Company.Data.Migrations
                 name: "ActivityRegistrations");
 
             migrationBuilder.DropTable(
-                name: "People");
+                name: "Activities");
 
             migrationBuilder.DropTable(
-                name: "Activities");
+                name: "People");
         }
     }
 }

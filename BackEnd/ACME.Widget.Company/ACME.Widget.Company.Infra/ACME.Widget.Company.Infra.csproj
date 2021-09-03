@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ACME.Widget.Company.Data\ACME.Widget.Company.Data.csproj" />
+    <ProjectReference Include="..\ACME.Widget.Company.Services\ACME.Widget.Company.Services.csproj" />
   </ItemGroup>
 
 </Project>

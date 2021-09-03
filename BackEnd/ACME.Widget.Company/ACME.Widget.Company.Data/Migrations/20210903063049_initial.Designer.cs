@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ACME.Widget.Company.Data.Migrations
 {
     [DbContext(typeof(ACMEDbContext))]
-    [Migration("20210902211428_initial")]
+    [Migration("20210903063049_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,9 +69,9 @@ namespace ACME.Widget.Company.Data.Migrations
                         new
                         {
                             Id = 3,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             Name = "Weekly Jogging at Campus Garden",
-                            RegistrationDeadline = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RegistrationDeadline = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -101,6 +101,15 @@ namespace ACME.Widget.Company.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ActivityRegistrations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ActivityId = 3,
+                            Comments = "Yay!",
+                            PersonId = 1
+                        });
                 });
 
             modelBuilder.Entity("ACME.Widget.Company.Common.Models.Person", b =>
@@ -131,15 +140,34 @@ namespace ACME.Widget.Company.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("People");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "test@yopmail.com",
+                            FirstName = "Joseph",
+                            LastName = "Dela Cruz"
+                        });
                 });
 
             modelBuilder.Entity("ACME.Widget.Company.Common.Models.ActivityRegistration", b =>
                 {
-                    b.HasOne("ACME.Widget.Company.Common.Models.Activity", null)
+                    b.HasOne("ACME.Widget.Company.Common.Models.Activity", "Activity")
                         .WithMany("Registrations")
                         .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ACME.Widget.Company.Common.Models.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("ACME.Widget.Company.Common.Models.Activity", b =>

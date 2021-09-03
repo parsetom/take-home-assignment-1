@@ -1,4 +1,5 @@
 ﻿using ACME.Widget.Company.Data;
+using ACME.Widget.Company.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,8 @@ namespace ACME.Widget.Company.Infra
             {
                 options.UseSqlServer("ConnectionStrings.ACME.Database");
             });
+
+            services.AddScoped<ActivityService>();
 
             services.AddLogging(builder =>
             {

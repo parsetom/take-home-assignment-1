@@ -76,9 +76,28 @@ namespace ACME.Widget.Company.Data
                 new Activity
                 {
                     Id = 3,
-                    Name = "Weekly Jogging at Campus Garden"
-                }
-                );
+                    Name = "Weekly Jogging at Campus Garden",
+                    RegistrationDeadline = DateTime.MaxValue,
+                    EndDate = DateTime.MaxValue
+                });
+
+            modelBuilder.Entity<Person>().HasData(
+                new Person
+                {
+                    Id = 1,
+                    FirstName = "Joseph",
+                    LastName = "Dela Cruz",
+                    Email = "test@yopmail.com"
+                });
+
+            modelBuilder.Entity<ActivityRegistration>().HasData(
+                new ActivityRegistration
+                {
+                    Id = 1,
+                    ActivityId = 3,
+                    PersonId = 1,
+                    Comments = "Yay!"
+                });
         }
     }
 }

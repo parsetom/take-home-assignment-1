@@ -66,7 +66,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
         }
 
         [Test]
-        public async Task RegisterParticipantTest_NewParticipant()
+        public async Task RegisterParticipantAsyncTest_NewParticipant()
         {
             var activityId = 1;
             var participant = new Person()
@@ -76,7 +76,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
                 LastName = "Dela Cruz"
             };
 
-            var result = await activityService.RegisterParticipant(activityId, string.Empty, participant);
+            var result = await activityService.RegisterParticipantAsync(activityId, string.Empty, participant);
 
             Assert.That(result.ErrorCode == Common.ErrorCodes.None);
             Assert.IsTrue(result.Result);
@@ -90,7 +90,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
         }
 
         [Test]
-        public async Task RegisterParticipantTest_ExistingParticipant()
+        public async Task RegisterParticipantAsyncTest_ExistingParticipant()
         {
             var activityId = 1;
             var participant = new Person()
@@ -100,7 +100,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
                 LastName = "Dela Cruz"
             };
 
-            var result = await activityService.RegisterParticipant(activityId, string.Empty, participant);
+            var result = await activityService.RegisterParticipantAsync(activityId, string.Empty, participant);
 
             Assert.That(result.ErrorCode == Common.ErrorCodes.None);
             Assert.IsTrue(result.Result);
@@ -112,7 +112,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
         }
 
         [Test]
-        public async Task RegisterParticipantTest_NewParticipantErrors()
+        public async Task RegisterParticipantAsyncTest_NewParticipantErrors()
         {
             var activityId = 1;
             var participant = new Person()
@@ -124,7 +124,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
 
             mockDbContext.Setup(d => d.SaveChanges()).Throws(default(Exception));
 
-            var result = await activityService.RegisterParticipant(activityId, string.Empty, participant);
+            var result = await activityService.RegisterParticipantAsync(activityId, string.Empty, participant);
 
             Assert.That(result.ErrorCode == Common.ErrorCodes.SystemError);
             Assert.False(result.Result);
@@ -138,7 +138,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
         }
 
         [Test]
-        public async Task RegisterParticipantTest_ExistingParticipantErrors()
+        public async Task RegisterParticipantAsyncTest_ExistingParticipantErrors()
         {
             var activityId = 1;
             var participant = new Person()
@@ -150,7 +150,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
 
             mockDbContext.Setup(d => d.SaveChanges()).Throws(default(Exception));
 
-            var result = await activityService.RegisterParticipant(activityId, string.Empty, participant);
+            var result = await activityService.RegisterParticipantAsync(activityId, string.Empty, participant);
 
             Assert.That(result.ErrorCode == Common.ErrorCodes.SystemError);
             Assert.False(result.Result);

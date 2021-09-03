@@ -4,10 +4,11 @@ using System.Text;
 
 namespace ACME.Widget.Company.Common.Models
 {
-    public class Participants
+    public class Participant
     {
+        public int RegistrationId { get; set; }
         public int PersonId { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public string Comments { get; set; }
         public string ActivityName { get; set; }
     }
