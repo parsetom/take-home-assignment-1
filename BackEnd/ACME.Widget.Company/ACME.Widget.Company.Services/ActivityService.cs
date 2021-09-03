@@ -1,6 +1,7 @@
 ﻿using ACME.Widget.Company.Common;
 using ACME.Widget.Company.Common.Models;
 using ACME.Widget.Company.Data;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +11,12 @@ namespace ACME.Widget.Company.Services
     public class ActivityService
     {
         protected ACMEDbContext dbContext;
-        public ActivityService(ACMEDbContext dbContext)
+        protected ILogger<ActivityService> logger;
+
+        public ActivityService(ACMEDbContext dbContext, ILogger<ActivityService> logger)
         {
             this.dbContext = dbContext;
+            this.logger = logger;
         }
 
         public Task<ServiceResult<bool>> RegisterParticipant(int activityId, string comment, Person participant)
@@ -62,6 +66,7 @@ namespace ACME.Widget.Company.Services
                         catch (Exception ex)
                         {
                             transaction.Rollback();
+                            logger.LogError(ex, $"Email: {participant.Email}");
                             serviceResult.ErrorCode = ErrorCodes.SystemError;
                             return Task.FromResult(serviceResult);
                         }
@@ -82,6 +87,7 @@ namespace ACME.Widget.Company.Services
                     }
                     catch (Exception ex)
                     {
+                        logger.LogError(ex, $"Email: {participant.Email}");
                         serviceResult.ErrorCode = ErrorCodes.SystemError;
                         return Task.FromResult(serviceResult);
                     }

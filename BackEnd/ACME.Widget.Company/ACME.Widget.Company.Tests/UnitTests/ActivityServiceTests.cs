@@ -4,6 +4,7 @@ using ACME.Widget.Company.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -25,6 +26,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
         private Mock<DbSet<Activity>> mockActivities;
         private Mock<DbSet<Person>> mockPerson;
         private Mock<DbSet<ActivityRegistration>> mockRegistration;
+        private Mock<ILogger<ActivityService>> mockLogger;
 
         [SetUp]
         public void SetUp()
@@ -32,6 +34,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
             mockDbContext = new Mock<ACMEDbContext>();
             mockTransaction = new Mock<IDbContextTransaction>();
             mockDatabase = new Mock<DatabaseFacade>(mockDbContext.Object);
+            mockLogger = new Mock<ILogger<ActivityService>>();
             mockDbContext.Setup(d => d.Database).Returns(mockDatabase.Object);
 
             mockActivities = new List<Activity>()
@@ -59,7 +62,7 @@ namespace ACME.Widget.Company.Tests.UnitTests
 
             mockDatabase.Setup(d => d.BeginTransaction()).Returns(mockTransaction.Object);
 
-            activityService = new ActivityService(mockDbContext.Object);
+            activityService = new ActivityService(mockDbContext.Object, mockLogger.Object);
         }
 
         [Test]
@@ -106,6 +109,58 @@ namespace ACME.Widget.Company.Tests.UnitTests
             mockDbContext.Verify(db => db.SaveChanges(), Times.Once());
             mockPerson.Verify(db => db.Add(It.IsAny<Person>()), Times.Never());
             mockRegistration.Verify(db => db.Add(It.IsAny<ActivityRegistration>()), Times.Once());
+        }
+
+        [Test]
+        public async Task RegisterParticipantTest_NewParticipantErrors()
+        {
+            var activityId = 1;
+            var participant = new Person()
+            {
+                Email = "test@yopmail.com",
+                FirstName = "Joseph",
+                LastName = "Dela Cruz"
+            };
+
+            mockDbContext.Setup(d => d.SaveChanges()).Throws(default(Exception));
+
+            var result = await activityService.RegisterParticipant(activityId, string.Empty, participant);
+
+            Assert.That(result.ErrorCode == Common.ErrorCodes.SystemError);
+            Assert.False(result.Result);
+
+
+            mockDatabase.Verify(db => db.BeginTransaction(), Times.Once);
+            mockDbContext.Verify(db => db.SaveChanges(), Times.Exactly(1));
+            mockTransaction.Verify(db => db.Commit(), Times.Never());
+            mockTransaction.Verify(db => db.Rollback(), Times.Once);
+            mockLogger.Verify(l => l.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()), Times.Once());
+        }
+
+        [Test]
+        public async Task RegisterParticipantTest_ExistingParticipantErrors()
+        {
+            var activityId = 1;
+            var participant = new Person()
+            {
+                Email = "another@yopmail.com",
+                FirstName = "Joseph",
+                LastName = "Dela Cruz"
+            };
+
+            mockDbContext.Setup(d => d.SaveChanges()).Throws(default(Exception));
+
+            var result = await activityService.RegisterParticipant(activityId, string.Empty, participant);
+
+            Assert.That(result.ErrorCode == Common.ErrorCodes.SystemError);
+            Assert.False(result.Result);
+
+
+            mockDatabase.Verify(db => db.BeginTransaction(), Times.Never());
+            mockDbContext.Verify(db => db.SaveChanges(), Times.Exactly(1));
+            mockTransaction.Verify(db => db.Commit(), Times.Never());
+            mockTransaction.Verify(db => db.Rollback(), Times.Never());
+            mockLogger.Verify(l => l.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()), Times.Once());
         }
     }
 }
