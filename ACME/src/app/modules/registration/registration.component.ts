@@ -29,6 +29,15 @@ export class RegistrationComponent implements OnInit
         text$.pipe(
             debounceTime(200),
             distinctUntilChanged(),
-            map(() => this.activities));
+            map(term => term == '' ? [] : this.activities.filter(v => {
+                let keyword = ''
+                if(v.name != null) {
+                    keyword = v.name;    
+                }
+                return keyword.toLowerCase().indexOf(term.toLowerCase()) > -1
+            })
+            .slice(0, 10)));
+            
+    formatter = (x: Activity) => x.name? x.name: '';
 }
 

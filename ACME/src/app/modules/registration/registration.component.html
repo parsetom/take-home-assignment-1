@@ -18,8 +18,15 @@
                 type="text"
                 class="form-control"
                 [ngbTypeahead]="search"
+                [resultTemplate]="rt"
+                [inputFormatter]="formatter"
             />
+        </div>
+        <div>
+            <input type="submit" class="form-control from-control-primary" value="Sign Up"/>
         </div>
     </form>
 </div>
-
+<ng-template #rt let-r="result">
+    <ngb-highlight [result]="r.name"></ngb-highlight>
+</ng-template>
