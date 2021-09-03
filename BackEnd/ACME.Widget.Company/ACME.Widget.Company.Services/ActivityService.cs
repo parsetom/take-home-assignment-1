@@ -126,14 +126,23 @@ namespace ACME.Widget.Company.Services
                 {
                     try
                     {
-                        dbContext.ActivityRegistrations.Add(new ActivityRegistration
+                        var isAlreadyRegistered = dbContext.ActivityRegistrations.Any(a => a.PersonId == participant.Id && a.ActivityId == activityId);
+
+                        if (isAlreadyRegistered)
                         {
-                            ActivityId = activityId,
-                            PersonId = person.Id,
-                            Comments = comment
-                        });
-                        dbContext.SaveChanges();
-                        serviceResult.Result = true;
+                            serviceResult.ErrorCode = ErrorCodes.AlreadyInEvent;
+                        }
+                        else
+                        {
+                            dbContext.ActivityRegistrations.Add(new ActivityRegistration
+                            {
+                                ActivityId = activityId,
+                                PersonId = person.Id,
+                                Comments = comment
+                            });
+                            dbContext.SaveChanges();
+                            serviceResult.Result = true;
+                        }
                     }
                     catch (Exception ex)
                     {
