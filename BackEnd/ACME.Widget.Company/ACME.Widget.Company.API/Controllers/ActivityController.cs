@@ -35,7 +35,7 @@ namespace ACME.Widget.Company.API.Controllers
         }
 
         [HttpPost("{activityId}/sign-up")]
-        public async Task<IActionResult> SignUp(SignUpInformation info)
+        public async Task<IActionResult> SignUp(int activityId, SignUpInformation info)
         {
             var person = new Person
             {
@@ -44,7 +44,7 @@ namespace ACME.Widget.Company.API.Controllers
                 Email = info.Email
             };// Let us use ORM next time.
 
-            var response = await this.activityService.RegisterParticipantAsync(info.ActivityId, info.Comments, person);
+            var response = await this.activityService.RegisterParticipantAsync(activityId, info.Comments, person);
             if (response.Result)
             {
                 return new ObjectResult(response.Result) { StatusCode = StatusCodes.Status201Created };

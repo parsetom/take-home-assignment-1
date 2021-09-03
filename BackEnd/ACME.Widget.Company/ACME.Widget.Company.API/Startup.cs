@@ -54,7 +54,7 @@ namespace ACME.Widget.Company.API
 
             app.UseCors(b =>
             {
-                b.WithOrigins("http://localhost:4200")
+                b.WithOrigins("*")
                               .AllowAnyMethod()
                               .AllowAnyHeader();
             });

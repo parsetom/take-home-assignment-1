@@ -221,13 +221,6 @@ export const SignUpInformation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      activityId: {
-        serializedName: "activityId",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       comments: {
         constraints: {
           MaxLength: 255

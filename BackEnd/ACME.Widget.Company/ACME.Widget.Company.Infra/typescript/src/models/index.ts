@@ -38,7 +38,6 @@ export interface SignUpInformation {
   firstName: string;
   lastName: string;
   email: string;
-  activityId: number;
   comments?: string;
 }
 

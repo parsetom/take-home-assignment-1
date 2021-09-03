@@ -53,7 +53,7 @@ export class AcmeApi extends AcmeApiContext {
    * @param options The options parameters.
    */
   signUp(
-    activityId: string,
+    activityId: number,
     options?: AcmeApiSignUpOptionalParams
   ): Promise<void> {
     return this.sendOperationRequest(
@@ -103,9 +103,9 @@ const getParticipantsOperationSpec: coreClient.OperationSpec = {
 const signUpOperationSpec: coreClient.OperationSpec = {
   path: "/api/Activity/{activityId}/sign-up",
   httpMethod: "POST",
-  responses: { 200: {} },
+  responses: { 201: {} },
   requestBody: Parameters.body,
-  urlParameters: [Parameters.$host, Parameters.activityId1],
+  urlParameters: [Parameters.$host, Parameters.activityId],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer

@@ -32,7 +32,6 @@ export const $host: OperationURLParameter = {
 export const searchKeyword: OperationQueryParameter = {
   parameterPath: ["options", "searchKeyword"],
   mapper: {
-    defaultValue: "",
     serializedName: "searchKeyword",
     type: {
       name: "String"
@@ -66,15 +65,4 @@ export const contentType: OperationParameter = {
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: SignUpInformationMapper
-};
-
-export const activityId1: OperationURLParameter = {
-  parameterPath: "activityId",
-  mapper: {
-    serializedName: "activityId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

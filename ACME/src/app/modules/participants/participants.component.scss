@@ -1,0 +1,18 @@
+#participantsContainer {
+    height: 100%;
+    background-image: url('../../../assets/sign-up-background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 30px;
+    text-align: center;;
+}
+
+#participantsContainer table {
+    background-color: white;
+    box-shadow: 0px 0px 6px #888888;
+}
+
+#participantsContainer .spinner-border {
+    height: 200px;
+    width: 200px;
+}

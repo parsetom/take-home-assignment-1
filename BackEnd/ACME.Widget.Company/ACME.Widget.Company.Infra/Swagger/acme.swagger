@@ -16,8 +16,7 @@
             "name": "searchKeyword",
             "in": "query",
             "schema": {
-              "type": "string",
-              "default": ""
+              "type": "string"
             }
           }
         ],
@@ -116,7 +115,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -264,7 +264,6 @@
       },
       "SignUpInformation": {
         "required": [
-          "activityId",
           "email",
           "firstName",
           "lastName"
@@ -282,10 +281,6 @@
           "email": {
             "maxLength": 50,
             "type": "string"
-          },
-          "activityId": {
-            "type": "integer",
-            "format": "int32"
           },
           "comments": {
             "maxLength": 255,

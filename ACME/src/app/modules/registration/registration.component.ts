@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ActivationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, OperatorFunction } from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import { AcmeApi, Activity } from 'src/app/api';
@@ -18,13 +18,15 @@ export class RegistrationComponent implements OnInit
     
     constructor(
         private acmeApi: AcmeApi,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router
     ) {
         this.registrationForm = this.formBuilder.group({
             firstName: ['',[Validators.required, Validators.maxLength(50)]],
             lastName: ['', [Validators.required, Validators.maxLength(50)]],
             email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-            activity: ['', [Validators.required]]
+            activity: ['', [Validators.required]],
+            comments: ['']
         });
     }
 
@@ -39,15 +41,21 @@ export class RegistrationComponent implements OnInit
 
         let hasActivityErrors = !this.isActivityFound();
         
-        if (!this.registrationForm.invalid && hasActivityErrors) {
+        if (!this.registrationForm.invalid && !hasActivityErrors) {
+            let participant = this.registrationForm.value;
+            let activityId = participant.activity.id;
 
+            this.acmeApi.signUp(activityId, { body: participant })
+                .then((result) => {
+                    this.router.navigate(['/participants/' + activityId], { replaceUrl: true });
+                });
         }
     }
 
     isActivityFound() {
         let activity = this.registrationForm.get('activity');
         
-        let isActivityFound = this.activities.filter(a => a.name == activity?.value).length > 0;
+        let isActivityFound = this.activities.filter(a => a.name == activity?.value.name).length > 0;
 
         if (activity?.value == '') {
             return true; // let required validator handle it

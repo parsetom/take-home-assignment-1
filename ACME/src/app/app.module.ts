@@ -8,11 +8,13 @@ import { AcmeApi } from './api';
 import { Router } from '@angular/router';
 import { MockTokenCredential } from './components/mock-token-credential.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ParticipantsComponent } from './modules/participants/participants.components';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ParticipantsComponent
   ],
   imports: [
     BrowserModule,
