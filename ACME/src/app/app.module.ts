@@ -7,6 +7,7 @@ import { RegistrationComponent } from './modules/registration/registration.compo
 import { AcmeApi } from './api';
 import { Router } from '@angular/router';
 import { MockTokenCredential } from './components/mock-token-credential.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,9 @@ import { MockTokenCredential } from './components/mock-token-credential.componen
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     {
