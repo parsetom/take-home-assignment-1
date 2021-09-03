@@ -8,17 +8,19 @@ namespace ACME.Widget.Company.Data
 {
     public class ACMEDbContext : DbContext
     {
-        public DbSet<Person> People { get; set; }
-        public DbSet<Activity> Activities { get; set; }
-        public DbSet<ActivityRegistration> ActivityRegistrations { get; set; }
+        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<ActivityRegistration> ActivityRegistrations { get; set; }
+
+        public ACMEDbContext()
+        {
+        }
 
         private bool isEFTools = true;
         public ACMEDbContext(bool isEFTools = true)
         {
             this.isEFTools = isEFTools;
         }
-
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

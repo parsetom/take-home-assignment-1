@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.Widget.Company.API", "ACME.Widget.Company.API\ACME.Widget.Company.API.csproj", "{C6E948B6-74AE-458A-BE99-91787145B4DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACME.Widget.Company.API", "ACME.Widget.Company.API\ACME.Widget.Company.API.csproj", "{C6E948B6-74AE-458A-BE99-91787145B4DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.Widget.Company.Tests", "ACME.Widget.Company.Tests\ACME.Widget.Company.Tests.csproj", "{6E80EF98-8BCF-4215-98C6-2841F0BD1813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACME.Widget.Company.Tests", "ACME.Widget.Company.Tests\ACME.Widget.Company.Tests.csproj", "{6E80EF98-8BCF-4215-98C6-2841F0BD1813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.Widget.Company.Infra", "ACME.Widget.Company.Infra\ACME.Widget.Company.Infra.csproj", "{6AEEC93F-B430-4E8E-9A03-F7783D41E2A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACME.Widget.Company.Infra", "ACME.Widget.Company.Infra\ACME.Widget.Company.Infra.csproj", "{6AEEC93F-B430-4E8E-9A03-F7783D41E2A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.Widget.Company.Common", "ACME.Widget.Company.Common\ACME.Widget.Company.Common.csproj", "{A564E9E8-B3FF-4392-A798-9CD82B2C57B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACME.Widget.Company.Common", "ACME.Widget.Company.Common\ACME.Widget.Company.Common.csproj", "{A564E9E8-B3FF-4392-A798-9CD82B2C57B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.Widget.Company.Data", "ACME.Widget.Company.Data\ACME.Widget.Company.Data.csproj", "{1C71D961-5106-4AC1-B00D-052537CCA6C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACME.Widget.Company.Data", "ACME.Widget.Company.Data\ACME.Widget.Company.Data.csproj", "{1C71D961-5106-4AC1-B00D-052537CCA6C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.Widget.Company.Services", "ACME.Widget.Company.Services\ACME.Widget.Company.Services.csproj", "{ACE12520-3B1E-45E5-8EB8-5052022FA704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{1C71D961-5106-4AC1-B00D-052537CCA6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C71D961-5106-4AC1-B00D-052537CCA6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C71D961-5106-4AC1-B00D-052537CCA6C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACE12520-3B1E-45E5-8EB8-5052022FA704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE12520-3B1E-45E5-8EB8-5052022FA704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE12520-3B1E-45E5-8EB8-5052022FA704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE12520-3B1E-45E5-8EB8-5052022FA704}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
