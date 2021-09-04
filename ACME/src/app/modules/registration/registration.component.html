@@ -56,3 +56,36 @@
 <ng-template #rt let-r="result">
     <ngb-highlight [result]="r.name"></ngb-highlight>
 </ng-template>
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Success!</h4>
+    </div>
+    <div class="modal-body">
+      You are now registered to the event.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Nice!</button>
+    </div>
+</ng-template>
+<ng-template #errorContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Sorry</h4>
+    </div>
+    <div class="modal-body">
+      An error has occured please 
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Ok</button>
+    </div>
+</ng-template>
+<ng-template #alreadyRegisteredContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Oops!</h4>
+    </div>
+    <div class="modal-body">
+      You are already registered in this event
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Ok</button>
+    </div>
+</ng-template>

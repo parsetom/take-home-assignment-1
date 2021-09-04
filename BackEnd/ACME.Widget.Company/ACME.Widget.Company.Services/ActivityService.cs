@@ -126,7 +126,7 @@ namespace ACME.Widget.Company.Services
                 {
                     try
                     {
-                        var isAlreadyRegistered = dbContext.ActivityRegistrations.Any(a => a.PersonId == participant.Id && a.ActivityId == activityId);
+                        var isAlreadyRegistered = dbContext.ActivityRegistrations.Any(a => a.PersonId == person.Id && a.ActivityId == activityId);
 
                         if (isAlreadyRegistered)
                         {
